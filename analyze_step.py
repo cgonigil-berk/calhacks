@@ -6,9 +6,10 @@ Analyzes STEP assembly files to:
 1. Identify geometric features
 2. Detect contact between features
 3. Determine tolerancing requirements
+4. Visualize assemblies with contact highlighting
 
 Usage:
-    python analyze_step.py <step_file_path>
+    python analyze_step.py <step_file_path> [tolerance] [--visualize] [--no-show]
 """
 
 import sys
@@ -202,12 +203,12 @@ class STEPAnalyzer:
         # Notifications for critical requirements
         critical_count = stats['critical']
         if critical_count > 0:
-            print(f"\n⚠️  WARNING: {critical_count} CRITICAL tolerance requirement(s) detected!")
-            print("   These require immediate attention for proper assembly function.")
+            print(f"\n[!] WARNING: {critical_count} CRITICAL tolerance requirement(s) detected!")
+            print("    These require immediate attention for proper assembly function.")
         
         if stats['important'] > 0:
-            print(f"\n⚡ NOTICE: {stats['important']} IMPORTANT tolerance requirement(s) detected.")
-            print("   These should be addressed to ensure quality assembly.")
+            print(f"\n[*] NOTICE: {stats['important']} IMPORTANT tolerance requirement(s) detected.")
+            print("    These should be addressed to ensure quality assembly.")
         
         print("\n")
 
@@ -215,18 +216,38 @@ class STEPAnalyzer:
 def main():
     """Main entry point"""
     
+    # Parse arguments
     if len(sys.argv) < 2:
-        print("Usage: python analyze_step.py <step_file_path> [tolerance]")
+        print("Usage: python analyze_step.py <step_file_path> [tolerance] [--visualize] [--no-show]")
         print("\nArguments:")
         print("  step_file_path  : Path to the STEP assembly file (.step or .stp)")
         print("  tolerance       : (Optional) Distance tolerance in mm (default: 0.01)")
+        print("  --visualize     : (Optional) Generate 3D visualization of the assembly")
+        print("  --no-show       : (Optional) Save visualizations without displaying them")
         print("\nExample:")
         print("  python analyze_step.py assembly.step")
         print("  python analyze_step.py assembly.step 0.05")
+        print("  python analyze_step.py assembly.step 2.0 --visualize")
+        print("  python analyze_step.py assembly.step 1.0 --visualize --no-show")
         sys.exit(1)
     
     step_file = sys.argv[1]
-    tolerance = float(sys.argv[2]) if len(sys.argv) > 2 else 0.01
+    
+    # Parse remaining arguments
+    tolerance = 0.01
+    visualize = False
+    show_viz = True
+    
+    for i, arg in enumerate(sys.argv[2:], start=2):
+        if arg == '--visualize':
+            visualize = True
+        elif arg == '--no-show':
+            show_viz = False
+        else:
+            try:
+                tolerance = float(arg)
+            except ValueError:
+                print(f"Warning: Invalid argument '{arg}' ignored")
     
     # Check if file exists
     if not os.path.exists(step_file):
@@ -246,6 +267,43 @@ def main():
         json.dump(results, f, indent=2)
     
     print(f"Detailed results saved to: {output_file}")
+    
+    # Generate visualization if requested
+    if visualize:
+        try:
+            from visualizer import AssemblyVisualizer
+            
+            print("\n" + "="*80)
+            print("GENERATING 3D VISUALIZATION")
+            print("="*80 + "\n")
+            
+            # Create visualizer
+            viz = AssemblyVisualizer(analyzer.feature_analyzer, analyzer.contact_detector.contacts)
+            
+            # Generate 3D assembly view
+            viz_3d_file = os.path.splitext(step_file)[0] + "_3d_view.png"
+            viz.visualize(output_file=viz_3d_file if not show_viz else None, show=show_viz)
+            
+            if not show_viz:
+                print(f"3D visualization saved to: {viz_3d_file}")
+            
+            # Generate contact report if there are contacts
+            if analyzer.contact_detector.contacts:
+                report_file = os.path.splitext(step_file)[0] + "_contact_report.png"
+                viz.create_contact_report_visualization(
+                    output_file=report_file if not show_viz else None
+                )
+                
+                if not show_viz:
+                    print(f"Contact report saved to: {report_file}")
+            
+        except ImportError as e:
+            print(f"\nWarning: Could not import visualization module: {e}")
+            print("Visualization requires matplotlib. Install with: pip install matplotlib")
+        except Exception as e:
+            print(f"\nWarning: Visualization failed: {e}")
+            import traceback
+            traceback.print_exc()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,78 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║              STEP ASSEMBLY TOLERANCE ANALYZER - QUICK REFERENCE            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📦 INSTALLATION
+───────────────
+  pip install -r requirements.txt
+
+
+🚀 QUICK START
+───────────────
+  # Run demo
+  python demo.py
+
+  # Analyze with visualization
+  python analyze_step.py your_file.step 2.0 --visualize
+
+  # Quick visualization
+  python visualize_step.py your_file.step 5.0
+
+
+📊 WHAT IT DOES
+───────────────
+  1. ✓ Loads STEP assembly file
+  2. ✓ Identifies features (faces, cylinders, holes)
+  3. ✓ Detects contacts between parts
+  4. ✓ Recommends tolerances (ISO fits, GD&T)
+  5. ✓ Creates 3D visualization with contacts in RED
+  6. ✓ Generates analysis charts
+
+
+🎨 VISUALIZATION
+────────────────
+  RED SURFACES  = Contact areas (parts touching)
+  RED STARS ★   = Contact center points
+  RED LINES     = Connections between contacts
+  BLUE/GREEN    = Non-contact surfaces
+
+
+⚙️ TOLERANCE PARAMETER
+───────────────────────
+  Distance threshold for contact detection (mm):
+
+  0.01-0.1  → Tight fits (precision assemblies)
+  0.1-1.0   → Normal assemblies
+  1.0-10.0  → Loose fits / visual inspection
+
+
+📁 OUTPUT FILES
+───────────────
+  <name>_analysis.json        Detailed analysis data
+  <name>_3d_view.png          3D assembly visualization
+  <name>_contact_report.png   Contact analysis charts
+
+
+🔧 TOLERANCE PRIORITIES
+────────────────────────
+  🔴 CRITICAL    Hole-shaft fits (H7/h6, H8/f7, etc.)
+  🟡 IMPORTANT   Mating surfaces, perpendicularity
+  🟢 STANDARD    Edge contacts, general tolerances
+
+
+💡 TIPS
+───────
+  • Start with tolerance = 2.0 mm for visualization
+  • Increase tolerance if no contacts detected
+  • Use --no-show for batch processing
+  • Check PNG files to verify contacts are correct
+
+
+📚 FULL DOCS
+────────────
+  See README.md and USAGE.txt for complete documentation
+
+
+═══════════════════════════════════════════════════════════════════════════
+ For questions: Check USAGE.txt | Run: python demo.py for working example
+═══════════════════════════════════════════════════════════════════════════

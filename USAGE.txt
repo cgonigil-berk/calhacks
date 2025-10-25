@@ -1,5 +1,5 @@
-STEP Assembly Tolerance Analysis Tool
-======================================
+STEP Assembly Tolerance Analysis Tool with 3D Visualization
+=============================================================
 
 INSTALLATION:
 -------------
@@ -10,35 +10,71 @@ INSTALLATION:
    pip install --break-system-packages -r requirements.txt
 
 
-USAGE:
-------
-Basic usage:
+BASIC USAGE:
+------------
+Analysis only (no visualization):
    python analyze_step.py <step_file_path>
-
-With custom tolerance (in mm):
    python analyze_step.py <step_file_path> <tolerance>
+
+Analysis with 3D visualization:
+   python analyze_step.py <step_file_path> <tolerance> --visualize
+   python analyze_step.py <step_file_path> <tolerance> --visualize --no-show
+
+Quick visualization only:
+   python visualize_step.py <step_file_path> [tolerance]
 
 Examples:
    python analyze_step.py assembly.step
    python analyze_step.py my_assembly.stp 0.05
-   python analyze_step.py complex_part.step 1.0
+   python analyze_step.py assembly.step 2.0 --visualize
+   python analyze_step.py assembly.step 1.0 --visualize --no-show
+   python visualize_step.py complex_part.step 5.0
 
 
-OUTPUT:
--------
-The tool generates two outputs:
+VISUALIZATION FEATURES:
+-----------------------
+The visualization shows:
 
-1. Console Report - Summary displayed in terminal showing:
-   - Number of parts and features detected
-   - Contact types between parts
-   - Tolerance requirements by priority (Critical/Important/Standard)
-   - Detailed recommendations for each tolerance requirement
+1. 3D Assembly View:
+   - Each part rendered in different colors
+   - Contact surfaces highlighted in RED
+   - Red stars mark contact center points
+   - Red lines connect contacting features
+   - Interactive rotation (when displayed)
 
-2. JSON File - Detailed analysis saved as <filename>_analysis.json containing:
-   - Complete feature information (positions, dimensions, types)
-   - Contact details between features
-   - Tolerance requirements with recommendations
-   - Summary statistics
+2. Contact Analysis Report (when contacts exist):
+   - Contact types distribution (pie chart)
+   - Contact distance distribution (histogram)
+   - Contact area comparison (bar chart)
+   - Part interaction matrix (heatmap)
+
+Command Line Options:
+   --visualize    Generate 3D visualizations
+   --no-show      Save images without displaying them (for batch processing)
+
+
+OUTPUT FILES:
+-------------
+The tool generates multiple outputs:
+
+1. Console Report - Summary in terminal
+2. <filename>_analysis.json - Detailed analysis data
+3. <filename>_3d_view.png - 3D assembly visualization (if --visualize used)
+4. <filename>_contact_report.png - Contact analysis charts (if contacts detected)
+
+
+INTERPRETING THE 3D VISUALIZATION:
+-----------------------------------
+- BLUE/GREEN/YELLOW parts: Different components in the assembly
+- RED surfaces: Features that are in contact with other parts
+- RED STARS: Contact points (center of contact regions)
+- RED LINES: Connect features that are in contact
+- Rotate view: Use mouse when displayed interactively
+
+Contact surfaces are identified based on:
+- Proximity between features from different parts
+- Geometric compatibility (faces, cylinders, holes)
+- Distance threshold (tolerance parameter)
 
 
 TOLERANCE PARAMETER:
@@ -101,9 +137,16 @@ fit and alignment.
 
 FILES:
 ------
-- analyze_step.py         Main analysis script
+Core Application:
+- analyze_step.py         Main analysis script with visualization support
+- visualize_step.py       Standalone quick visualization tool
 - feature_analyzer.py     Feature identification module
 - contact_detector.py     Contact detection module
 - tolerance_evaluator.py  Tolerance evaluation module
+- visualizer.py           3D visualization module
 - create_sample.py        Sample assembly generator
 - requirements.txt        Python dependencies
+
+Example Outputs:
+- sample_assembly_3d_view.png        Example 3D visualization
+- sample_assembly_contact_report.png Example contact analysis charts

@@ -34,6 +34,13 @@ class ToleranceEvaluator:
             "reason": "Cylindrical fit requires precise tolerance for proper assembly and function",
             "recommendation": "ISO fit designation (e.g., H7/h6 for precision, H8/f7 for clearance)"
         },
+        "Interference/Transition Fit": {
+            "type": "Hole-Shaft Fit",
+            "requires_tolerance": True,
+            "priority": "Critical",
+            "reason": "Interference fit requires precise tolerance for proper press fit assembly",
+            "recommendation": "ISO interference fit designation (e.g., H7/p6 for press fit, H7/s6 for force fit)"
+        },
         "Mating Surfaces": {
             "type": "Flatness/Surface Profile",
             "requires_tolerance": True,
@@ -116,7 +123,7 @@ class ToleranceEvaluator:
                 priority = rule["priority"]
                 
                 # Adjust for critical fits
-                if contact_type == "Clearance/Interference Fit":
+                if contact_type in ["Clearance/Interference Fit", "Interference/Transition Fit"]:
                     recommendation = self._get_fit_recommendation(contact)
                     priority = "Critical"
                 
@@ -141,28 +148,45 @@ class ToleranceEvaluator:
         feature1 = contact.feature1
         feature2 = contact.feature2
         
-        # Determine which is hole and which is shaft
-        if feature1.feature_type == FeatureType.HOLE:
-            hole = feature1
-            shaft = feature2
-        else:
-            hole = feature2
-            shaft = feature1
+        r1 = feature1.dimensions.get("radius", 0)
+        r2 = feature2.dimensions.get("radius", 0)
+        clearance = abs(r1 - r2)
+        diameter = (r1 + r2)  # Average diameter
         
-        hole_radius = hole.dimensions.get("radius", 0)
-        shaft_radius = shaft.dimensions.get("radius", 0)
+        # Determine fit type based on clearance
+        if clearance < 0.01:  # Interference or press fit (< 0.01mm clearance)
+            if diameter < 10:
+                return "H7/p6 (Press fit)"
+            elif diameter < 50:
+                return "H7/s6 (Force fit)"
+            else:
+                return "H7/u6 (Heavy press fit)"
         
-        diameter = hole_radius * 2
+        elif clearance < 0.1:  # Transition fit (0.01 - 0.1mm clearance)
+            if diameter < 10:
+                return "H7/k6 (Transition fit)"
+            elif diameter < 50:
+                return "H7/n6 (Sliding fit)"
+            else:
+                return "H7/m6 (Light transition fit)"
         
-        # Recommend fit based on size
-        if diameter < 6:
-            return "H7/h6 (Precision fit for small diameters)"
-        elif diameter < 30:
-            return "H7/g6 (Close running fit)"
-        elif diameter < 100:
-            return "H8/f7 (Sliding fit)"
-        else:
-            return "H9/e8 (Loose running fit for large diameters)"
+        elif clearance < 0.5:  # Close running fit
+            if diameter < 10:
+                return "H7/g6 (Close running fit)"
+            elif diameter < 50:
+                return "H8/f7 (Close running fit)"
+            else:
+                return "H8/e8 (Close running fit)"
+        
+        else:  # Free running fit
+            if diameter < 6:
+                return "H7/h6 (Precision fit for small diameters)"
+            elif diameter < 30:
+                return "H7/g6 (Close running fit)"
+            elif diameter < 100:
+                return "H8/f7 (Sliding fit)"
+            else:
+                return "H9/e8 (Loose running fit for large diameters)"
     
     def _elevate_priority(self, current_priority: str) -> str:
         """Elevate priority level if needed"""

@@ -322,38 +322,38 @@
   ],
   "contacts": [
     {
-      "feature1_id": 2,
-      "feature2_id": 9,
-      "feature1_type": "Flat Face",
-      "feature2_type": "Flat Face",
-      "contact_type": "Surface Contact",
-      "distance": 8.540158223610044e-15,
-      "contact_area": 157079.6326794897
+      "feature1_id": 0,
+      "feature2_id": 7,
+      "feature1_type": "Cylindrical Surface",
+      "feature2_type": "Cylindrical Surface",
+      "contact_type": "Interference/Transition Fit",
+      "distance": 0.0,
+      "contact_area": 1570796.3271090556
     }
   ],
   "tolerance_requirements": [
     {
       "contact": {
-        "feature1_id": 2,
-        "feature2_id": 9,
-        "contact_type": "Surface Contact"
+        "feature1_id": 0,
+        "feature2_id": 7,
+        "contact_type": "Interference/Transition Fit"
       },
-      "tolerance_type": "Surface Profile",
-      "reason": "Surface contact requires profile control",
-      "recommended_tolerance": "Profile tolerance \u00b10.15mm",
-      "priority": "Important"
+      "tolerance_type": "Hole-Shaft Fit",
+      "reason": "Interference fit requires precise tolerance for proper press fit assembly",
+      "recommended_tolerance": "H7/u6 (Heavy press fit)",
+      "priority": "Critical"
     }
   ],
   "statistics": {
     "total_requirements": 1,
-    "critical": 0,
-    "important": 1,
+    "critical": 1,
+    "important": 0,
     "standard": 0,
     "total_features": 10,
     "total_parts": 2,
     "total_contacts": 1,
     "contacts_by_type": {
-      "Surface Contact": 1
+      "Interference/Transition Fit": 1
     }
   }
 }

@@ -197,7 +197,6 @@ class FeatureAnalyzer:
                     # Cylindrical surface
                     cylinder = surface_adaptor.Cylinder()
                     radius = cylinder.Radius()
-                    dimensions = {"radius": radius}
                     
                     # Get axis direction
                     try:
@@ -208,10 +207,54 @@ class FeatureAnalyzer:
                     except:
                         normal = np.array([0, 0, 1])
                     
+                    # Determine if this is a hole or external cylinder by checking orientation
+                    # For a hole, the normal typically points inward (negative radius direction)
+                    # We can also check the surface orientation
+                    from OCP.BRepClass import BRepClass_FaceClassifier
+                    from OCP.gp import gp_Pnt
+                    
+                    # Check if this is likely a hole by testing if it's an inner surface
+                    # Sample a point slightly inside from the surface
+                    test_offset = radius * 0.1
+                    test_point = position + normal * test_offset
+                    
+                    # Check surface orientation - for holes, face normal points inward
+                    # We'll classify based on the relationship between face normal and radial direction
+                    is_hole = False
+                    
+                    # Get face orientation
+                    try:
+                        face_normal = face.normalAt()
+                        face_normal_vec = np.array([face_normal.x, face_normal.y, face_normal.z])
+                        
+                        # For a hole, surface normal points toward the axis (inward)
+                        # For external cylinder, normal points away from axis (outward)
+                        # Calculate radial vector from axis to surface point
+                        axis_point = np.array([axis.Location().X(), axis.Location().Y(), axis.Location().Z()])
+                        radial = position - axis_point
+                        radial = radial - np.dot(radial, normal) * normal  # Remove axial component
+                        
+                        if np.linalg.norm(radial) > 0.001:
+                            radial = radial / np.linalg.norm(radial)
+                            
+                            # Dot product tells us the direction
+                            dot = np.dot(face_normal_vec, radial)
+                            
+                            # If normal points toward axis (negative dot), it's a hole
+                            # If normal points away from axis (positive dot), it's external
+                            if dot < 0:
+                                is_hole = True
+                    except:
+                        # Fallback: smaller features are more likely to be holes
+                        is_hole = radius < 15  # Assume cylinders < 15mm are holes
+                    
+                    dimensions = {"radius": radius}
+                    feature_type = FeatureType.HOLE if is_hole else FeatureType.CYLINDER
+                    
                     return Feature(
                         id=feature_id,
                         part_id=part_id,
-                        feature_type=FeatureType.CYLINDER,
+                        feature_type=feature_type,
                         position=position,
                         normal=normal,
                         dimensions=dimensions,
