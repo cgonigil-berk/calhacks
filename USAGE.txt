@@ -1,0 +1,109 @@
+STEP Assembly Tolerance Analysis Tool
+======================================
+
+INSTALLATION:
+-------------
+1. Install dependencies:
+   pip install -r requirements.txt
+
+2. For system packages (Ubuntu/Debian):
+   pip install --break-system-packages -r requirements.txt
+
+
+USAGE:
+------
+Basic usage:
+   python analyze_step.py <step_file_path>
+
+With custom tolerance (in mm):
+   python analyze_step.py <step_file_path> <tolerance>
+
+Examples:
+   python analyze_step.py assembly.step
+   python analyze_step.py my_assembly.stp 0.05
+   python analyze_step.py complex_part.step 1.0
+
+
+OUTPUT:
+-------
+The tool generates two outputs:
+
+1. Console Report - Summary displayed in terminal showing:
+   - Number of parts and features detected
+   - Contact types between parts
+   - Tolerance requirements by priority (Critical/Important/Standard)
+   - Detailed recommendations for each tolerance requirement
+
+2. JSON File - Detailed analysis saved as <filename>_analysis.json containing:
+   - Complete feature information (positions, dimensions, types)
+   - Contact details between features
+   - Tolerance requirements with recommendations
+   - Summary statistics
+
+
+TOLERANCE PARAMETER:
+--------------------
+The tolerance parameter (default: 0.01 mm) defines the maximum distance
+between features to be considered "in contact". Adjust based on your needs:
+
+- Tight assemblies: 0.01 - 0.1 mm
+- Normal assemblies: 0.1 - 1.0 mm
+- Loose assemblies: 1.0 - 5.0 mm
+
+
+FEATURE TYPES DETECTED:
+-----------------------
+- Flat Face: Planar surfaces
+- Cylindrical Surface: Cylindrical features (shafts, pins)
+- Hole: Circular openings
+
+
+CONTACT TYPES IDENTIFIED:
+--------------------------
+- Clearance/Interference Fit: Hole-shaft connections (CRITICAL)
+- Mating Surfaces: Face-to-face contact (IMPORTANT)
+- Edge Contact: Cylinder-face contact (STANDARD)
+- Line Contact: Cylinder-cylinder contact (IMPORTANT)
+- Perpendicular Contact: Perpendicular surfaces (IMPORTANT)
+- Surface Contact: General surface contact (STANDARD)
+
+
+TOLERANCE RECOMMENDATIONS:
+--------------------------
+The tool provides specific tolerance recommendations based on:
+- Feature types in contact
+- Contact geometry
+- ISO fit designations for cylindrical fits
+- GD&T best practices
+
+
+SAMPLE ASSEMBLY:
+----------------
+A sample assembly (sample_assembly.step) is provided for testing.
+To analyze it:
+   python analyze_step.py sample_assembly.step 2.0
+
+To create your own sample:
+   python create_sample.py
+
+
+UNDERSTANDING THE OUTPUT:
+-------------------------
+CRITICAL priorities indicate essential fits requiring precise tolerancing
+for proper assembly function (e.g., shaft-hole fits).
+
+IMPORTANT priorities indicate geometric relationships that significantly
+affect assembly quality (e.g., mating surfaces, perpendicularity).
+
+STANDARD priorities indicate general tolerancing needs for proper
+fit and alignment.
+
+
+FILES:
+------
+- analyze_step.py         Main analysis script
+- feature_analyzer.py     Feature identification module
+- contact_detector.py     Contact detection module
+- tolerance_evaluator.py  Tolerance evaluation module
+- create_sample.py        Sample assembly generator
+- requirements.txt        Python dependencies

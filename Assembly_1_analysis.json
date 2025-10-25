@@ -1,0 +1,359 @@
+{
+  "file": "Assembly_1.step",
+  "success": true,
+  "error": null,
+  "features": [
+    {
+      "id": 0,
+      "part_id": 0,
+      "type": "Cylindrical Surface",
+      "position": [
+        -5.684341886080802e-14,
+        -1500.0,
+        -1.4210854715202004e-14
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "dimensions": {
+        "radius": 250.0
+      },
+      "bounding_box": [
+        [
+          -250.00000010000005,
+          -3000.0000001,
+          -250.0000001
+        ],
+        [
+          250.00000009999997,
+          1e-07,
+          250.0000001
+        ]
+      ]
+    },
+    {
+      "id": 1,
+      "part_id": 0,
+      "type": "Flat Face",
+      "position": [
+        0.0,
+        -3000.0,
+        7.105427357601002e-15
+      ],
+      "normal": [
+        -0.0,
+        -1.0,
+        0.0
+      ],
+      "dimensions": {
+        "area": 196349.54084936212,
+        "width": 500.0,
+        "height": 0.0
+      },
+      "bounding_box": [
+        [
+          -250.00000000000006,
+          -3000.0,
+          -250.0
+        ],
+        [
+          249.99999999999997,
+          -3000.0,
+          250.0
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "part_id": 0,
+      "type": "Flat Face",
+      "position": [
+        0.0,
+        0.0,
+        7.105427357601002e-15
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        -0.0
+      ],
+      "dimensions": {
+        "area": 196349.54084936212,
+        "width": 500.0,
+        "height": 0.0
+      },
+      "bounding_box": [
+        [
+          -250.00000000000006,
+          0.0,
+          -250.0
+        ],
+        [
+          249.99999999999997,
+          0.0,
+          250.0
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "part_id": 1,
+      "type": "Flat Face",
+      "position": [
+        -500.0,
+        -500.0,
+        -4.218847493575596e-15
+      ],
+      "normal": [
+        -1.0,
+        0.0,
+        -2.22044604925032e-16
+      ],
+      "dimensions": {
+        "area": 999999.9999999998,
+        "width": 2.2737367544323206e-13,
+        "height": 1000.0
+      },
+      "bounding_box": [
+        [
+          -500.0000000000001,
+          -1000.0,
+          -500.0
+        ],
+        [
+          -499.9999999999999,
+          0.0,
+          500.0
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "part_id": 1,
+      "type": "Flat Face",
+      "position": [
+        7.993605777301129e-15,
+        -500.0,
+        -500.0
+      ],
+      "normal": [
+        -0.0,
+        -0.0,
+        -1.0
+      ],
+      "dimensions": {
+        "area": 999999.9999999998,
+        "width": 1000.0,
+        "height": 1000.0
+      },
+      "bounding_box": [
+        [
+          -500.0,
+          -1000.0,
+          -500.0
+        ],
+        [
+          500.0,
+          0.0,
+          -500.0
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "part_id": 1,
+      "type": "Flat Face",
+      "position": [
+        500.0,
+        -500.0,
+        -4.218847493575596e-15
+      ],
+      "normal": [
+        1.0,
+        -0.0,
+        2.22044604925032e-16
+      ],
+      "dimensions": {
+        "area": 999999.9999999998,
+        "width": 2.2737367544323206e-13,
+        "height": 1000.0
+      },
+      "bounding_box": [
+        [
+          499.9999999999999,
+          -1000.0,
+          -500.0
+        ],
+        [
+          500.0000000000001,
+          0.0,
+          500.0
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "part_id": 1,
+      "type": "Flat Face",
+      "position": [
+        -4.218847493575596e-15,
+        -500.0,
+        500.0
+      ],
+      "normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "dimensions": {
+        "area": 999999.9999999998,
+        "width": 1000.0,
+        "height": 1000.0
+      },
+      "bounding_box": [
+        [
+          -500.0,
+          -1000.0,
+          500.0
+        ],
+        [
+          500.0,
+          0.0,
+          500.0
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "part_id": 1,
+      "type": "Cylindrical Surface",
+      "position": [
+        -2.245315045001917e-15,
+        -500.00000000000006,
+        8.526512829121202e-14
+      ],
+      "normal": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "dimensions": {
+        "radius": 250.0
+      },
+      "bounding_box": [
+        [
+          -250.0000001,
+          -1000.0000001,
+          -250.00000009999997
+        ],
+        [
+          250.0000001,
+          1e-07,
+          250.00000010000002
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "part_id": 1,
+      "type": "Flat Face",
+      "position": [
+        4.737848092768436e-15,
+        -1000.0,
+        1.4210854715202004e-14
+      ],
+      "normal": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "dimensions": {
+        "area": 803650.4591506377,
+        "width": 1000.0000000000002,
+        "height": 0.0
+      },
+      "bounding_box": [
+        [
+          -500.0000000000001,
+          -1000.0,
+          -500.0
+        ],
+        [
+          500.0000000000001,
+          -1000.0,
+          500.0
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "part_id": 1,
+      "type": "Flat Face",
+      "position": [
+        4.737848092768436e-15,
+        0.0,
+        1.4210854715202004e-14
+      ],
+      "normal": [
+        -0.0,
+        1.0,
+        -0.0
+      ],
+      "dimensions": {
+        "area": 803650.4591506377,
+        "width": 1000.0000000000002,
+        "height": 0.0
+      },
+      "bounding_box": [
+        [
+          -500.0000000000001,
+          0.0,
+          -500.0
+        ],
+        [
+          500.0000000000001,
+          0.0,
+          500.0
+        ]
+      ]
+    }
+  ],
+  "contacts": [
+    {
+      "feature1_id": 2,
+      "feature2_id": 9,
+      "feature1_type": "Flat Face",
+      "feature2_type": "Flat Face",
+      "contact_type": "Surface Contact",
+      "distance": 8.540158223610044e-15,
+      "contact_area": 157079.6326794897
+    }
+  ],
+  "tolerance_requirements": [
+    {
+      "contact": {
+        "feature1_id": 2,
+        "feature2_id": 9,
+        "contact_type": "Surface Contact"
+      },
+      "tolerance_type": "Surface Profile",
+      "reason": "Surface contact requires profile control",
+      "recommended_tolerance": "Profile tolerance \u00b10.15mm",
+      "priority": "Important"
+    }
+  ],
+  "statistics": {
+    "total_requirements": 1,
+    "critical": 0,
+    "important": 1,
+    "standard": 0,
+    "total_features": 10,
+    "total_parts": 2,
+    "total_contacts": 1,
+    "contacts_by_type": {
+      "Surface Contact": 1
+    }
+  }
+}
